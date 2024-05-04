@@ -14,12 +14,16 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Route::get('/homepage', function () {
-//     return view('homepage');
+// Route::get('/', function () {
+//     return view('welcome');
 // });
 
 Route::get('/homepage', [UsersController::class, 'index']);
+
+Route::get('/registers', [UsersController::class, 'showRegistration']);
+Route::post('/registers', [UsersController::class, 'registration']);
+
+Route::get('/viewData/{id}', [UsersController::class, 'view']);
+
+Route::get('/updateData/{id}', [UsersController::class, 'showUpdate']);
+Route::post('/updateData/{id}', [UsersController::class, 'update']);

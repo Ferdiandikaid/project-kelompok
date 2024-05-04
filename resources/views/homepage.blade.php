@@ -43,7 +43,7 @@
                                     <a class="nav-link" href="{{url('homepage')}}">Contact</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link justify-content-end" href="{{('login')}}">Login</a>
+                                    <a class="nav-link" href="{{url('registers')}}">Register</a>
                                 </li>
                             </ul>
                         </div>
@@ -53,6 +53,9 @@
         </nav>
         <div class="container">
             <div class="row">
+                @if($message=Session::get('success'))
+                <div class="alert alert-primary" role="alert">{{$message}}</div>
+                @endif
             <table class="table">
             <thead>
               <tr>
@@ -65,13 +68,13 @@
             @foreach ($data as $data)
             <tbody>
               <tr>
-                <th scope="row">1</th>
+                <th scope="row">{{$data->id}}</th>
                 <td>{{$data->username}}</td>
                 <td>{{$data->email}}</td>
                 <td>
-                <button type="button" class="btn btn-primary">View</button>
-                <button type="button" class="btn btn-warning">Update</button>
-                <button type="button" class="btn btn-danger">Reject</button>
+                <a href="/project-kelompok/public/viewData/{{$data->id}}" class="btn btn-primary">View</a>
+                <a href="/project-kelompok/public/updateData/{{$data->id}}" class="btn btn-warning">Update</a>
+                <button type="button" class="btn btn-danger">Delete</button>
                 </td>
               </tr>
             </tbody>
