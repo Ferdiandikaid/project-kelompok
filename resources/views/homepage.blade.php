@@ -72,8 +72,8 @@
                 <td>{{$data->username}}</td>
                 <td>{{$data->email}}</td>
                 <td>
-                <a href="/project-kelompok/public/viewData/{{$data->id}}" class="btn btn-primary">View</a>
-                <a href="/project-kelompok/public/updateData/{{$data->id}}" class="btn btn-warning">Update</a>
+                <a href="{{url('viewData')}}/{{$data->id}}" class="btn btn-primary">View</a>
+                <a href="{{url('updateData')}}/{{$data->id}}" class="btn btn-warning">Update</a>
                 <button type="button" class="btn btn-danger">Delete</button>
                 </td>
               </tr>

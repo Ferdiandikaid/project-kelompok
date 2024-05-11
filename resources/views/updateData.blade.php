@@ -23,7 +23,7 @@
                 <div class="col-8">
                 <div class="card">
                     <div class="card-body">
-                        <form action="/updateData/{id}" method="post" class="container" class="mx-5" enctype="multipart/form-data"
+                        <form action="{{url('/updateData/').'/'.$data->id}}" method="post" class="container" class="mx-5" enctype="multipart/form-data"
                             >
                             @csrf
                             <div class="form-group mt-2">
