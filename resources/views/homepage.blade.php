@@ -68,9 +68,9 @@
             @foreach ($data as $data)
             <tbody>
               <tr>
-                <th scope="row">{{$data->id}}</th>
-                <td>{{$data->username}}</td>
-                <td>{{$data->email}}</td>
+                <th scope="row">{{$data->Id}}</th>
+                <td>{{$data->Username}}</td>
+                <td>{{$data->Email}}</td>
                 <td>
                 <a href="{{url('viewData')}}/{{$data->id}}" class="btn btn-primary">View</a>
                 <a href="{{url('updateData')}}/{{$data->id}}" class="btn btn-warning">Update</a>

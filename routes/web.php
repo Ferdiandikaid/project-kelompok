@@ -18,12 +18,12 @@ use App\Http\Controllers\UsersController;
 //     return view('welcome');
 // });
 
-Route::get('/homepage', [UsersController::class, 'index']);
+Route::get('/homepage', [UsersController::class, 'returnHomePageWithData']);
 
 Route::get('/registers', [UsersController::class, 'showRegistration']);
 Route::post('/registers', [UsersController::class, 'registration']);
 
-Route::get('/viewData/{id}', [UsersController::class, 'view']);
+// Route::get('/viewData/{id}', [UsersController::class, 'view']);
 
-Route::get('/updateData/{id}', [UsersController::class, 'showUpdate']);
-Route::post('/updateData/{id}', [UsersController::class, 'update']);
+// Route::get('/updateData/{id}', [UsersController::class, 'showUpdate']);
+// Route::post('/updateData/{id}', [UsersController::class, 'update']);
