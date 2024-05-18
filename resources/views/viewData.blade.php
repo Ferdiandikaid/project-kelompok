@@ -24,6 +24,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form class="container" class="mx-5">
+                        @foreach ($data as $item)
                         <div class="form-group mt-2">
                                 <label for="exampleInputeEmail">Username</label>
                                 <input
@@ -32,7 +33,8 @@
                                     id="exampleInputEmail1"
                                     placeholder="Enter username"
                                     name="username"
-                                    value="{{$data->username}}"
+                                    value="{{$item->username}}"
+                                    readonly
                                 />
                             </div>
                             <div class="form-group mt-2">
@@ -43,7 +45,8 @@
                                     id="exampleInputEmail1"
                                     placeholder="Enter email"
                                     name="email"
-                                    value="{{$data->email}}"
+                                    value="{{$item->email}}"
+                                    readonly
                                 />
                             </div>
                             <div class="form-group mt-2">
@@ -52,11 +55,24 @@
                                     type="text"
                                     class="form-control"
                                     id="exampleInputEmail1"
-                                    placeholder="Enter description"
                                     name="description"
-                                    value="{{$data->description}}"
+                                    value="{{$item->description}}"
+                                    readonly
                                 />
                             </div>
+                            <div class="form-group mt-2">
+                                <label for="exampleInputeEmail">Tanggal Pembuatan</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="exampleInputEmail1"
+                                    name="description"
+                                    value="{{$item->tanggal}}"
+                                    readonly
+                                />
+                            </div>
+                            @endforeach
+                            <a href="{{url('homepage')}}" class="btn btn-primary mt-4">Back</a> 
                         </form>
                     </div>
                 </div>

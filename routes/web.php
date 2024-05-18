@@ -23,7 +23,8 @@ Route::get('/homepage', [UsersController::class, 'returnHomePageWithData']);
 Route::get('/registers', [UsersController::class, 'showRegistration']);
 Route::post('/registers', [UsersController::class, 'registration']);
 
-// Route::get('/viewData/{id}', [UsersController::class, 'view']);
+Route::get('/viewData', [UsersController::class, 'view']);
 
+Route::get('/viewData/{id}', [UsersController::class, 'viewById']);
 // Route::get('/updateData/{id}', [UsersController::class, 'showUpdate']);
 // Route::post('/updateData/{id}', [UsersController::class, 'update']);

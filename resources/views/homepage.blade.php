@@ -65,15 +65,15 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            @foreach ($data as $data)
+            @foreach ($data as $item)
             <tbody>
               <tr>
-                <th scope="row">{{$data->Id}}</th>
-                <td>{{$data->Username}}</td>
-                <td>{{$data->Email}}</td>
+                <th scope="row">{{$item->id}}</th>
+                <td>{{$item->username}}</td>
+                <td>{{$item->email}}</td>
                 <td>
-                <a href="{{url('viewData')}}/{{$data->id}}" class="btn btn-primary">View</a>
-                <a href="{{url('updateData')}}/{{$data->id}}" class="btn btn-warning">Update</a>
+                <a href="{{url('viewData')}}/{{$item->id}}" class="btn btn-primary">View</a>
+                <a href="{{url('updateData')}}/{{$item->id}}" class="btn btn-warning">Update</a>
                 <button type="button" class="btn btn-danger">Delete</button>
                 </td>
               </tr>

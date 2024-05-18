@@ -25,6 +25,7 @@ func main() {
 	var mux = http.NewServeMux()
 	mux.HandleFunc("/sendAllData", api_sendAllData)
 	mux.HandleFunc("/getAllData", api_getAllData)
+	mux.HandleFunc("/getAllData1", api_getAllData1)
 	fmt.Println("Server is running on port 8080")
 	http.ListenAndServe(":8080", mux)
 }
@@ -64,7 +65,40 @@ func api_getAllData(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	} else {
 		w.Header().Set("Content-Type", "application/json")
-		io.WriteString(w, string(dataJson))
+		w.Write(dataJson)
+		// io.WriteString(w, string(dataJson))
+	}
+}
+
+func getData1(connection *sql.DB) []UserData {
+	var userDataArray []UserData
+	data, err := connection.Query("SELECT Id, Username, Email, Description, Password, Created_at, Tanggal FROM users where Id=1")
+	if err != nil {
+		panic(err)
+	} else {
+		for data.Next() {
+			var userData UserData
+			err = data.Scan(&userData.Id, &userData.Username, &userData.Email, &userData.Description, &userData.Password, &userData.CreatedAt, &userData.Tanggal)
+			if err != nil {
+				panic(err)
+			} else {
+				userDataArray = append(userDataArray, userData)
+			}
+		}
+	}
+	return userDataArray
+}
+
+func api_getAllData1(w http.ResponseWriter, r *http.Request) {
+	connection := connect()
+	var userData = getData1(connection)
+	dataJson, err := json.Marshal(userData)
+	if err != nil {
+		panic(err)
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(dataJson)
+		// io.WriteString(w, string(dataJson))
 	}
 }
 

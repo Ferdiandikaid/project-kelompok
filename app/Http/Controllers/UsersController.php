@@ -7,9 +7,41 @@ use Illuminate\Support\Facades\Http;
 
 class UsersController extends Controller{
 
-    public function returnHomePageWithData(){
-        $data=Users::all();
-        return view('homepage',compact('data')); 
+    public function returnHomePageWithData()
+    {
+        $client = new \GuzzleHttp\Client();
+        
+        try {
+            $response = $client->get('http://localhost:8080/getAllData');
+            $statusCode = $response->getStatusCode();
+            
+            if ($statusCode !== 200) {
+                echo "Error: Received status code $statusCode";
+                return;
+            }
+
+            $body = $response->getBody();
+            $data = json_decode($body);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo "Error decoding JSON: " . json_last_error_msg();
+                return;
+            }
+
+            if ($data === null) {
+                echo "Error: No data received";
+                return;
+            }
+            
+            // foreach ($data as $userData) {
+            //     echo $userData['username'] . "<br>";
+            //     echo $userData['email'] . "<br>";
+            // }
+
+        } catch (\Exception $e) {
+            echo "Request failed: " . $e->getMessage();
+        }
+        return view('homepage',['data'=>$data]);
     }
 
      public function showRegistration(){
@@ -51,6 +83,80 @@ class UsersController extends Controller{
     //     $data=Users::find($id);
     //     return view('viewData',[$data->id])->with('data',$data);
     // }
+
+    public function view()
+    {
+        $client = new \GuzzleHttp\Client();
+        
+        try {
+            $response = $client->get('http://localhost:8080/getAllData1');
+            $statusCode = $response->getStatusCode();
+            
+            if ($statusCode !== 200) {
+                echo "Error: Received status code $statusCode";
+                return;
+            }
+
+            $body = $response->getBody();
+            $data = json_decode($body);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo "Error decoding JSON: " . json_last_error_msg();
+                return;
+            }
+
+            if ($data === null) {
+                echo "Error: No data received";
+                return;
+            }
+            
+            // foreach ($data as $userData) {
+            //     echo $userData['username'] . "<br>";
+            //     echo $userData['email'] . "<br>";
+            // }
+
+        } catch (\Exception $e) {
+            echo "Request failed: " . $e->getMessage();
+        }
+        return view('viewData',['data'=>$data]);
+    }
+
+    public function viewById()
+    {
+        $client = new \GuzzleHttp\Client();
+        
+        try {
+            $response = $client->get('http://localhost:8080/getAllData1');
+            $statusCode = $response->getStatusCode();
+            
+            if ($statusCode !== 200) {
+                echo "Error: Received status code $statusCode";
+                return;
+            }
+
+            $body = $response->getBody();
+            $data = json_decode($body);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo "Error decoding JSON: " . json_last_error_msg();
+                return;
+            }
+
+            if ($data === null) {
+                echo "Error: No data received";
+                return;
+            }
+            
+            // foreach ($data as $userData) {
+            //     echo $userData['username'] . "<br>";
+            //     echo $userData['email'] . "<br>";
+            // }
+
+        } catch (\Exception $e) {
+            echo "Request failed: " . $e->getMessage();
+        }
+        return view('viewData',['data'=>$data]);
+    }
     
     // public function showUpdate($id){
     //     $data=Users::find($id);
