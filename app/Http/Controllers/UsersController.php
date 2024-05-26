@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Users;
 use Illuminate\Support\Facades\Http;
+use Hash;
 
 class UsersController extends Controller{
 
@@ -20,8 +21,7 @@ class UsersController extends Controller{
                 return;
             }
 
-            $body = $response->getBody();
-            $data = json_decode($body);
+            $data = json_decode($response->getBody());
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 echo "Error decoding JSON: " . json_last_error_msg();
@@ -59,7 +59,7 @@ class UsersController extends Controller{
             'username' => $username,
             'email' => $email,
             'description' => $description,
-            'password' => $password,
+            'password' =>Hash::make($password),
         ]);
         if (!$response->successful()) {
             $errors = $response->json();
@@ -84,21 +84,20 @@ class UsersController extends Controller{
     //     return view('viewData',[$data->id])->with('data',$data);
     // }
 
-    public function view()
-    {
+    public function viewById($id){
         $client = new \GuzzleHttp\Client();
         
         try {
-            $response = $client->get('http://localhost:8080/getAllData1');
-            $statusCode = $response->getStatusCode();
-            
-            if ($statusCode !== 200) {
-                echo "Error: Received status code $statusCode";
-                return;
+            $response = Http::post('http://localhost:8080/getAllDataById', [
+                'id' => $id,
+            ]);
+
+            if (!$response->successful()) {
+                $errors = $response->json();
+                echo "Failed to add data";
             }
 
-            $body = $response->getBody();
-            $data = json_decode($body);
+            $data = json_decode($response->getBody());
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 echo "Error decoding JSON: " . json_last_error_msg();
@@ -115,47 +114,14 @@ class UsersController extends Controller{
             //     echo $userData['email'] . "<br>";
             // }
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo "Request failed: " . $e->getMessage();
         }
         return view('viewData',['data'=>$data]);
     }
 
-    public function viewById()
-    {
-        $client = new \GuzzleHttp\Client();
-        
-        try {
-            $response = $client->get('http://localhost:8080/getAllData1');
-            $statusCode = $response->getStatusCode();
-            
-            if ($statusCode !== 200) {
-                echo "Error: Received status code $statusCode";
-                return;
-            }
-
-            $body = $response->getBody();
-            $data = json_decode($body);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                echo "Error decoding JSON: " . json_last_error_msg();
-                return;
-            }
-
-            if ($data === null) {
-                echo "Error: No data received";
-                return;
-            }
-            
-            // foreach ($data as $userData) {
-            //     echo $userData['username'] . "<br>";
-            //     echo $userData['email'] . "<br>";
-            // }
-
-        } catch (\Exception $e) {
-            echo "Request failed: " . $e->getMessage();
-        }
-        return view('viewData',['data'=>$data]);
+    public function showGet($id){
+        return view('viewData',[$data->id])->with('data',$data);
     }
     
     // public function showUpdate($id){

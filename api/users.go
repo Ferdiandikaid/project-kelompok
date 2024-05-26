@@ -25,7 +25,7 @@ func main() {
 	var mux = http.NewServeMux()
 	mux.HandleFunc("/sendAllData", api_sendAllData)
 	mux.HandleFunc("/getAllData", api_getAllData)
-	mux.HandleFunc("/getAllData1", api_getAllData1)
+	mux.HandleFunc("/getAllDataById", api_getAllDataById)
 	fmt.Println("Server is running on port 8080")
 	http.ListenAndServe(":8080", mux)
 }
@@ -70,9 +70,11 @@ func api_getAllData(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getData1(connection *sql.DB) []UserData {
+func getDataById(connection *sql.DB, Id int) []UserData {
 	var userDataArray []UserData
-	data, err := connection.Query("SELECT Id, Username, Email, Description, Password, Created_at, Tanggal FROM users where Id=1")
+	querySql := "SELECT * FROM users WHERE Id="
+	concatSql := fmt.Sprintf("%s%d", querySql, Id)
+	data, err := connection.Query(concatSql)
 	if err != nil {
 		panic(err)
 	} else {
@@ -89,10 +91,16 @@ func getData1(connection *sql.DB) []UserData {
 	return userDataArray
 }
 
-func api_getAllData1(w http.ResponseWriter, r *http.Request) {
+func api_getAllDataById(w http.ResponseWriter, r *http.Request) {
 	connection := connect()
-	var userData = getData1(connection)
-	dataJson, err := json.Marshal(userData)
+	var userData UserData
+	err := json.NewDecoder(r.Body).Decode(&userData)
+	if err != nil {
+		http.Error(w, "Error decoding JSON: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+	var userData2 = getDataById(connection, userData.Id)
+	dataJson, err := json.Marshal(userData2)
 	if err != nil {
 		panic(err)
 	} else {
@@ -114,7 +122,11 @@ func api_sendAllData(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error decoding JSON: "+err.Error(), http.StatusBadRequest)
 		return
 	}
-	userData.CreatedAt = time.Now().Unix()
+	t := time.Now()
+	userData.CreatedAt = time.Now().UnixMilli()
+	fmt.Println(userData.CreatedAt)
+	fmt.Println(t)
+	// fmt.Println(userData.CreatedAt)
 	err = sendData(connect(), userData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
