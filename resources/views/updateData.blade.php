@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Ferdiandikaid</title>
+        <title>Update Data</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -22,8 +22,9 @@
             <div class="row justify-content-center">
                 <div class="col-8">
                 <div class="card">
+                @foreach ($data as $data)
                     <div class="card-body">
-                        <form action="{{url('/updateData/').'/'.$data->id}}" method="post" class="container" class="mx-5" enctype="multipart/form-data"
+                        <form action="{{url('/updateData/').'/'.$data['id']}}" method="post" class="container" class="mx-5" enctype="multipart/form-data"
                             >
                             @csrf
                             <div class="form-group mt-2">
@@ -34,7 +35,7 @@
                                     id="exampleInputEmail1"
                                     placeholder="Enter username"
                                     name="username"
-                                    value="{{$data->username}}"
+                                    value="{{$data['username']}}"
                                 />
                             </div>
                             <div class="form-group mt-2">
@@ -45,7 +46,7 @@
                                     id="exampleInputEmail1"
                                     placeholder="Enter email"
                                     name="email"
-                                    value="{{$data->email}}"
+                                    value="{{$data['email']}}"
                                 />
                             </div>
                             <div class="form-group mt-2">
@@ -56,7 +57,7 @@
                                     id="exampleInputEmail1"
                                     placeholder="Enter description"
                                     name="description"
-                                    value="{{$data->description}}"
+                                    value="{{$data['description']}}"
                                 />
                             </div>
                             <div class="form-group mt-2">
@@ -66,16 +67,18 @@
                                     class="form-control mb-2"
                                     placeholder="Enter password"
                                     name="password"
-                                    value="{{$data->password}}"
+                                    value="{{$data['password']}}"
                                 />
                             </div>
-                            <a href="#" class="dika">Already have account? login here</a>
-                            <br>
-                            <button type="submit" class="btn btn-custom1 my-3">
+                            <div class="mt-3">
+                            <a href="{{url('homepage')}}" class="btn btn-primary">Back</a> 
+                            <button type="submit" class="btn btn-secondary">
                                 Submit
                             </button>
+                            </div>
                         </form>
                     </div>
+                    @endforeach
                 </div>
                 </div>
             </div>

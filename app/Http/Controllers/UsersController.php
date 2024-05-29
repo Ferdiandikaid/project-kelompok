@@ -28,10 +28,10 @@ class UsersController extends Controller{
                 return;
             }
 
-            if ($data === null) {
-                echo "Error: No data received";
-                return;
-            }
+            // if ($data === null) {
+            //     echo "Error: No data received";
+            //     return;
+            // }
             
             // foreach ($data as $userData) {
             //     echo $userData['username'] . "<br>";
@@ -86,44 +86,11 @@ class UsersController extends Controller{
 
     public function viewById($id){
         $client = new \GuzzleHttp\Client();
-        
-        try {
-            $response = Http::post('http://localhost:8080/getAllDataById', [
-                'id' => $id,
-            ]);
-
-            if (!$response->successful()) {
-                $errors = $response->json();
-                echo "Failed to add data";
-            }
-
-            $data = json_decode($response->getBody());
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                echo "Error decoding JSON: " . json_last_error_msg();
-                return;
-            }
-
-            if ($data === null) {
-                echo "Error: No data received";
-                return;
-            }
-            
-            // foreach ($data as $userData) {
-            //     echo $userData['username'] . "<br>";
-            //     echo $userData['email'] . "<br>";
-            // }
-
-        } catch (Exception $e) {
-            echo "Request failed: " . $e->getMessage();
-        }
-        return view('viewData',['data'=>$data]);
+        $response = $client->get('http://localhost:8080/getAllDataById/' . $id);
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        return view('viewData', ['data' => $responseData]);
     }
 
-    public function showGet($id){
-        return view('viewData',[$data->id])->with('data',$data);
-    }
-    
     // public function showUpdate($id){
     //     $data=Users::find($id);
     //     return view('updateData',compact('data')); 
@@ -134,5 +101,44 @@ class UsersController extends Controller{
     //     $data->update($request->all());
     //     return redirect('homepage')->with('success','Data berhasil diedit');
     // }
+
+    public function showUpdate($id){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get('http://localhost:8080/getAllDataById/' . $id);
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        return view('updateData', ['data' => $responseData]);
+    }
+    
+    public function update(Request $request,$id){
+        $username = $request->input('username');
+        $email = $request->input('email');
+        $description = $request->input('description');
+        $password = $request->input('password');
+        $client = new \GuzzleHttp\Client();
+        $response = $client->put('http://localhost:8080/updateData/' . $id, [
+            'json' => [
+                'username' => $username,
+                'email' => $email,
+                'description' => $description,
+                'password' => Hash::make($password),
+            ],
+        ]);
+    
+        if ($response->getStatusCode() == 200) {
+            return redirect('homepage')->with('success','Data berhasil diupdate');
+        } else {
+            return redirect('homepage')->with('failed','Data tidak berhasil diupdate');
+        }
+    }
+    
+    public function delete($id){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->delete('http://localhost:8080/deleteData/' . $id);
+        if ($response->getStatusCode() == 200) {
+            return redirect('homepage')->with('success','Data berhasil didelete');
+        } else {
+            return redirect('homepage')->with('failed','Data tidak berhasil didelete');
+        }
+    }
 
 }

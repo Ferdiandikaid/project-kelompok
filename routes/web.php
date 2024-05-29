@@ -25,8 +25,9 @@ Route::post('/registers', [UsersController::class, 'registration']);
 
 // Route::get('/viewData', [UsersController::class, 'view']);
 
-Route::get('/viewData/{id}', [UsersController::class, 'showGet']);
+// Route::get('/viewData/{id}', [UsersController::class, 'showGet']);
+Route::get('/viewData/{id}', [UsersController::class, 'viewById']);
 
-Route::post('/viewData/{id}', [UsersController::class, 'viewById']);
-// Route::get('/updateData/{id}', [UsersController::class, 'showUpdate']);
-// Route::post('/updateData/{id}', [UsersController::class, 'update']);
+Route::get('/updateData/{id}', [UsersController::class, 'showUpdate']);
+Route::post('/updateData/{id}', [UsersController::class, 'update']);
+Route::get('/deleteData/{id}',[UsersController::class,'delete']);

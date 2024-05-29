@@ -33,7 +33,7 @@
                                     id="exampleInputEmail1"
                                     placeholder="Enter username"
                                     name="username"
-                                    value="{{$item->username}}"
+                                    value="{{$item['username']}}"
                                     readonly
                                 />
                             </div>
@@ -45,7 +45,7 @@
                                     id="exampleInputEmail1"
                                     placeholder="Enter email"
                                     name="email"
-                                    value="{{$item->email}}"
+                                    value="{{$item['email']}}"
                                     readonly
                                 />
                             </div>
@@ -56,7 +56,7 @@
                                     class="form-control"
                                     id="exampleInputEmail1"
                                     name="description"
-                                    value="{{$item->description}}"
+                                    value="{{$item['description']}}"
                                     readonly
                                 />
                             </div>
@@ -67,7 +67,7 @@
                                     class="form-control"
                                     id="exampleInputEmail1"
                                     name="description"
-                                    value="{{$item->tanggal}}"
+                                    value="{{$item['tanggal']}}"
                                     readonly
                                 />
                             </div>

@@ -72,9 +72,13 @@
                 <td>{{$item->username}}</td>
                 <td>{{$item->email}}</td>
                 <td>
-                <a href="{{url('viewData')}}/{{$item->id}}" class="btn btn-primary">View</a>
-                <a href="{{url('updateData')}}/{{$item->id}}" class="btn btn-warning">Update</a>
-                <button type="button" class="btn btn-danger">Delete</button>
+                    <form method="get" action="{{url('deleteData')}}/{{$item->id}}">
+                    <a href="{{url('viewData')}}/{{$item->id}}" class="btn btn-primary">View</a>
+                    <a href="{{url('updateData')}}/{{$item->id}}" class="btn btn-warning">Update</a>
+                    @csrf
+                    <button type="submit" class="btn btn-danger ">Delete</button>
+                </form>
+                <!-- <a href="{{url('deleteData')}}/{{$item->id}}" class="btn btn-danger">Delete</a> -->
                 </td>
               </tr>
             </tbody>
